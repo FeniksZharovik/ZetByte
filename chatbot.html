@@ -4,13 +4,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QueByte</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <title>ZetByte</title>
+
+    <style type="text/css">
+         ::-webkit-scrollbar {
+            width: 0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        #main {
+            width: 100vw;
+            max-width: 540px;
+            height: 100vh;
+            box-shadow: inset 0 0 10px 4px #1116;
+        }
+        
+        h2 {
+            text-align: center;
+            font-family: sans-serif;
+            background: #1c1c46;
+            color: #fff;
+            padding: 8px;
+            text-shadow: 1px 1px 4px #111;
+            margin-bottom: 8px;
+        }
+        
+        #msg_area {
+            height: 82%;
+            padding: 0 12px;
+            overflow-y: scroll;
+            scroll-behavior: smooth;
+        }
+        
+        #bot {
+            width: 50px;
+            height: 50px;
+            background: url(assets/bot.png);
+            background-size: 100%;
+            border-radius: 50%;
+            margin: 10px;
+        }
+        
+        #robot {
+            display: flex;
+            align-items: center;
+        }
+        
+        h3 {
+            font-family: monospace;
+            font-size: 20px;
+        }
+        
+        #input {
+            height: 7%;
+            min-height: 42px;
+            display: grid;
+            grid-template-columns: 70% 30%;
+            margin: 8px 16px;
+            border-radius: 32px;
+            background: linear-gradient(#ececee 50% #1c1f46 50%);
+            box-shadow: inset 0 1px 0 #777;
+        }
+        
+        #text {
+            outline: none;
+            font-size: 20px;
+            background: #ececee;
+            color: #333;
+            border-radius: 32px 0 32px 32px;
+            padding: 0 16px;
+            border: solid 1px #777;
+            border-right: none;
+        }
+        
+        #send {
+            outline: none;
+            font-size: 20px;
+            color: #eee;
+            background: #1c1f46;
+            border: none;
+            border-radius: 32px;
+            transition-duration: 0.2s;
+        }
+        
+        #send:active {
+            font-size: 16px;
+        }
+        
+        .left,
+        .right {
+            font-size: 18px;
+            font-family: monospace;
+            display: inline-block;
+            width: auto;
+            max-width: 60%;
+            padding: 14px;
+            word-wrap: break-word;
+            margin: 8px 14px;
+        }
+        
+        .left {
+            color: #000;
+            background: #b3bfca;
+            border-radius: 0 16px 16px 16px;
+        }
+        
+        .right {
+            color: #fff;
+            background: #1c1f46;
+            border-radius: 16px 16px 0 16px;
+            float: right;
+        }
+        
+        .msgCon1,
+        msgCon2 {
+            width: 100%;
+            display: inline-block;
+        }
+    </style>
 </head>
 
-<body>
+<body onload="start()">
     <div id="main">
-        <h2>QueByte</h2>
+        <h2>ChatBot</h2>
+
+        <div id="msg_area">
+            <div id="robot">
+                <div id="bot"></div>
+                <h3>ZetByte</h3>
+            </div>
+        </div>
+        <div id="input">
+            <input type="text" placeholder="New Message" id="text">
+            <button id="send">Send <i class="fa fa-paper-plane"></i>
+
+            </button>
+
+        </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.3/axios.min.js" integrity="sha512-zJXKBryKlsiDaWcWQ9fuvy50SG03/Qc5SqfLXxHmk9XiUUbcD9lXYjHDBxLFOuZSU6ULXaJ69bd7blSMEgxXNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
+<script type="text/javascript">
+    function start() {
+        let res_msg = document.createElement('div');
+        res_msg.innerHTML = "hello I'm Zet, nice to meet you. Is there anything I can do to help?";
+        res_msg.setAttribute("class", "left");
+
+        document.getElementById('msg_area').appendChild(res_msg);
+    }
+
+    document.getElementById('send').addEventListener("click", async(e) => {
+        e.preventDefault();
+        var req = document.getElementById("text").value;
+
+        if (req == undefined || req == "") {
+
+        } else {
+            let res = "";
+            await axios.get(`https://api.monkedev.com/fun/chat?msg=${req}`).then(data => {
+                res = JSON.stringify(data.data.response)
+            })
+            let msg_req = document.createElement('div');
+            let msg_res = document.createElement('div');
+
+            let msgCon1 = document.createElement('div');
+            let msgCon2 = document.createElement('div');
+
+
+            Con1.setAttribute("class", "msgCon1");
+            Con2.setAttribute("class", "msgCon2");
+
+            msg_req.innerHTML = req;
+            msg_res.innerHTML = res;
+
+
+            msg_req.setAttribute("class", "right");
+            msg_res.setAttribute("class", "left");
+
+
+            let Message = document.getElementById('msg_area');
+
+            Message.appendChild(Con1);
+            Message.appendChild(Con2);
+
+            Con1.appendChild(msg_req);
+            Con2.appendChild(msg_res);
+
+            document.getElementById('text').value = "";
+
+            function scroll() {
+                var scrollMsg = document.getElementById('msg_area');
+                scrollMsg.scrollTop = scrollMsg.scrollHeight;
+            }
+            scroll();
+        }
+    });
+</script>
 
 </html>
