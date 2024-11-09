@@ -1,2 +1,2 @@
 # ZetByte
-chatbot dengan API JS didalamnya 
+simple JS chatbot 
